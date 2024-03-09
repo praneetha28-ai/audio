@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "219159014153",
+    "project_id": "audio-e0f15",
+    "storage_bucket": "audio-e0f15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219159014153:android:04ac6d94b92d46369dc1d8",
+        "android_client_info": {
+          "package_name": "com.ecom.audio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219159014153-u53r1glmgggi8m106ur5un28l6j55sc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu_KS1XUgfHkTSQRfpqFFj2eYNSS1dScA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219159014153-u53r1glmgggi8m106ur5un28l6j55sc9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "219159014153-d63vcnuvros1it9766lba5181hmh2oe8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.audio"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219159014153:android:2c21a37891572d209dc1d8",
+        "android_client_info": {
+          "package_name": "com.example.audio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219159014153-u53r1glmgggi8m106ur5un28l6j55sc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu_KS1XUgfHkTSQRfpqFFj2eYNSS1dScA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219159014153-u53r1glmgggi8m106ur5un28l6j55sc9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "219159014153-d63vcnuvros1it9766lba5181hmh2oe8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.audio"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
