@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Cart extends StatefulWidget {
   final String cat;
@@ -68,6 +69,7 @@ class _CartState extends State<Cart> {
         canPop: true,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
             title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,8 +78,9 @@ class _CartState extends State<Cart> {
                 BlocProvider.of<ProdBloc>(context).add(ProductsFetchEvent(cat));
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Products(cat: cat,)));
               },
-                  icon: Icon(Icons.arrow_back_ios)),
-              Text("Shopping Cart"),
+                  icon: Icon(Icons.arrow_back_ios,size: 20,)),
+              Text("Shopping Cart",style: GoogleFonts.dmSans(textStyle:
+              TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),),
               IconButton(onPressed: (){
                 BlocProvider.of<ProdBloc>(context).add(DeleteCartList());
                 Future.delayed(Duration(seconds: 1),totalPrice);
@@ -92,54 +95,54 @@ class _CartState extends State<Cart> {
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
                      Container(
-                       // color: Colors.blueAccent,
+                       color: Colors.white,
                        height: MediaQuery.of(context).size.height*0.7,
                       child: ListView.builder(
                         itemCount: state.products.length,
                           itemBuilder: (BuildContext context,index){
                           print(state.products.length);
-                            return Container(
-                              margin: EdgeInsets.all(8),
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(state.products[index].prodImage!,width: 75,height: 75,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-
-                                        width:200,
-                                          child: Text(state.products[index].prodName!,softWrap: true,maxLines: 2,)),
-                                      Row(
-                                        children: [
-                                        IconButton(
-                                            onPressed: ()async{
-                                            },
-                                            icon: Icon(Icons.indeterminate_check_box_outlined)
-                                        ),
-                                        Text((state.products[index].quantity!+1).toString()),
-                                        IconButton(onPressed: (){}, icon: Icon(Icons.add_box_outlined))
-                                      ],
-                                      )
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width:87,
+                                    height: 87,
+                                    margin: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffF6F6F6),
+                                      borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: Image.asset(state.products[index].prodImage!,width: 65,height: 65,)),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width:200,
+                                        child: Text(state.products[index].prodName!,softWrap: true,maxLines: 2,
+                                        style: GoogleFonts.dmSans(textStyle:TextStyle(fontWeight: FontWeight.w400,color: Colors.black,fontSize: 16)),)),
+                                    Row(
+                                      children: [
+                                      IconButton(
+                                          onPressed: ()async{
+                                          },
+                                          icon: Icon(Icons.indeterminate_check_box_outlined)
+                                      ),
+                                      Text((state.products[index].quantity!+1).toString()),
+                                      IconButton(onPressed: (){}, icon: Icon(Icons.add_box_outlined))
                                     ],
-                                  ),
-                                  IconButton(onPressed: ()async{
+                                    )
+                                  ],
+                                ),
+                                IconButton(onPressed: ()async{
 
-                                    BlocProvider.of<ProdBloc>(context).add(DeleteCartItem(index));
-                                    Future.delayed(Duration(seconds: 1),totalPrice);
+                                  BlocProvider.of<ProdBloc>(context).add(DeleteCartItem(index));
+                                  Future.delayed(Duration(seconds: 1),totalPrice);
 
 
-                                    },
-                                      icon: Icon(Icons.delete_outline_outlined)
-                                  )
-                                ],
-                              ),
+                                  },
+                                    icon: Icon(Icons.delete_outline_outlined)
+                                )
+                              ],
                             );
                           }
                       )
@@ -149,10 +152,17 @@ class _CartState extends State<Cart> {
                        children: [
                          Container(
                            margin: EdgeInsets.all(8),
-                             child: Text("Total Products",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),)),
+                             child: Text("Total ${state.products.length} Products",
+                               style: GoogleFonts.dmSans(textStyle:
+                               TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 12))),
+                         ),
                          Container(
                            margin: EdgeInsets.all(8),
-                             child: Text("USD ${price}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.green),)),
+                             child: Text("USD ${price}",
+                               style: GoogleFonts.dmSans(textStyle:
+                               TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 16))
+                             ),
+                         )
                        ],
                      ),
                      SizedBox(height: 20,),
@@ -161,9 +171,17 @@ class _CartState extends State<Cart> {
                        width: MediaQuery.of(context).size.width,
                        height: 50,
                        child: ElevatedButton(onPressed: (){},
-                         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                         child: Text("Proceed to checkout",style: TextStyle(color: Colors.white,
-                             fontSize: 16,fontWeight: FontWeight.w600),),),
+                         style: ElevatedButton.styleFrom(backgroundColor: Color(0xff0ACF83)),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                           children: [
+                             Text("Proceed to checkout",
+                               style: GoogleFonts.dmSans(textStyle:
+                               TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 14)),),
+                             Icon(Icons.arrow_forward_ios_outlined,color: Colors.white,size: 25,)
+                           ],
+                         ),
+                     )
                      )
                    ],
                  )

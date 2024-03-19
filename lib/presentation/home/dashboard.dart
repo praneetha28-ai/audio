@@ -7,7 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/prod/prod_bloc.dart';
 
@@ -55,19 +57,36 @@ class _DashboardState extends State<Dashboard> {
     BlocProvider.of<ProdBloc>(context).add(ProductsFetchEvent("earpods"));
     checkAndCreateField();
   }
-  List<Tab> tabs = [
-    Tab(
-      text: "Earpods",
+  List<Widget> tabs = [
+    SizedBox(
+      width: 100,
+      height: 25,
+      child: Tab(
+        text: "Earpods",
+      ),
     ),
-    Tab(
-      text: "Headphones",
+    SizedBox(
+      width: 107,
+      height: 25,
+      child: Tab(
+        text: "Headphones",
+      ),
     ),
-    Tab(
-      text: "Speakers",
-    ),Tab(
-      text: "Earphones",
+    SizedBox(
+      width: 107,
+      height: 25,
+      child: Tab(
+        text: "Speakers",
+      ),
+    ),SizedBox(
+      width: 107,
+      height: 25,
+      child: Tab(
+        text: "Earphones",
+      ),
     ),
   ];
+  List<String> tabNames= ["Earpods","Headphones","Speakers","Earphones"];
   String category = "earpods";
   @override
   Widget build(BuildContext context) {
@@ -99,9 +118,11 @@ class _DashboardState extends State<Dashboard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset("assets/logo.png"),
+                Image.asset("assets/logo.png",height: 20.24,width: 20.24,),
                 SizedBox(width: 8,),
-                Text("Audio",style: TextStyle(fontWeight: FontWeight.w600),),
+                Text("Audio",style:GoogleFonts.dmSans(
+                    textStyle:TextStyle(fontWeight: FontWeight.w700,fontSize: 19.05)
+                )),
               ],
             ),
             GestureDetector(
@@ -159,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
                         child: user!= null
                             ? Text(
                                 "Hi, ${user.displayName}",
-                                style: TextStyle(fontSize: 20),
+                                style: GoogleFonts.dmSans(textStyle:TextStyle(fontWeight: FontWeight.w400,fontSize: 16)),
                               )
                             : Text("Hi,", style: TextStyle(fontSize: 20))),
                     Container(
@@ -167,115 +188,243 @@ class _DashboardState extends State<Dashboard> {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: Text(
                           "What are you looking for today?",
-                          style: TextStyle(fontSize: 24),
+                          style: GoogleFonts.dmSans(textStyle:TextStyle(fontWeight: FontWeight.w700,fontSize: 24)),
                         )),
                     Container(
-                        margin: EdgeInsets.only(
-                          left: 8,
-                          right: 8,
-                          bottom: 8,
+                        margin:const EdgeInsets.only(
+                          left: 25,
+                          right: 24,
+                          bottom: 24,
                         ),
                         child: TextField(
                           // controller: _emailController,
                           decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.search),
-                              // filled: true,
-                              // fillColor: Colors.white,
+                              prefixIcon: Icon(Icons.search_rounded,color: Color(0xffBABABA),),
                               labelText: "Search",
+                              labelStyle: GoogleFonts.dmSans(textStyle:TextStyle(
+                                  fontWeight: FontWeight.w400,fontSize: 14,color: Color(0xffBABABA))),
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16))),
+                                  borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: Color(0xffBABABA))
+                              )
+                          ),
                         )),
-                    Container(
-                      height: MediaQuery.of(context).size.height * (3 / 4),
-                      color: Colors.grey,
-                      child: DefaultTabController(
-                          length: tabs.length,
-                          child: Builder(builder: (BuildContext context) {
-                            final TabController tabController =
-                                DefaultTabController.of(context);
-                            tabController.addListener(() {
-                              if (tabController.indexIsChanging) {
-                                setState(() {
-                                  category = tabs[tabController.index].text!;
-                                });
-                                BlocProvider.of<ProdBloc>(context).add(ProductsFetchEvent(category));
+                    Expanded(
+                      child: Container(
+                        // height: MediaQuery.of(context).size.height *(0.79),
+                        color: Color(0xffF6F6F6),
+                        child: DefaultTabController(
+                            length: tabs.length,
+                            child: Builder(builder: (BuildContext context) {
+                              final TabController tabController =
+                                  DefaultTabController.of(context);
+                              tabController.addListener(() {
+                                if (tabController.indexIsChanging) {
+                                  setState(() {
+                                    category = tabNames[tabController.index];
+                                  });
+                                  BlocProvider.of<ProdBloc>(context).add(ProductsFetchEvent(category));
 
-                              }
-                            });
-                            return Scaffold(
-                              body: Container(
-                                height: MediaQuery.of(context).size.height,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xffF6F6F6),
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20))),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    TabBar(
-                                      indicator: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              10), // Creates border
-                                          color: Colors.green),
-
-                                      dividerColor: Color(0xffF6F6F6),
-                                      indicatorSize: TabBarIndicatorSize.values[0],
-                                      labelPadding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      tabAlignment: TabAlignment.center,
-                                      physics: BouncingScrollPhysics(),
-                                      isScrollable: true,
-                                      tabs: tabs,
-                                      labelStyle: TextStyle(color: Colors.white),
-                                    ),
-                                    Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 1,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              3,
-                                      child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: state.products.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return GestureDetector(
-                                              onTap: (){
-                                                Navigator.of(context).push(MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                            Products(
-                                                              cat: category,
-                                                            )));
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color: Colors.white,
-                                                ),
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 20, vertical: 10),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.9,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Column(
+                                }
+                              });
+                              return Scaffold(
+                                body: Container(
+                                  // height: MediaQuery.of(context).size.height,
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xffF6F6F6),
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          topLeft: Radius.circular(30))),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        TabBar(
+                                          indicator: BoxDecoration(
+                                              // border: Border.all( width: 1),
+                                              shape: BoxShape.rectangle,
+                                              borderRadius: BorderRadius.circular(
+                                                  30), // Creates border
+                                              color: Color(0xff0ACF83)),
+                                          dividerColor: Color(0xffF6F6F6),
+                                          indicatorSize: TabBarIndicatorSize.values[0],
+                                          labelPadding:
+                                              EdgeInsets.symmetric(horizontal: 10),
+                                          tabAlignment: TabAlignment.center,
+                                          physics: BouncingScrollPhysics(),
+                                          isScrollable: true,
+                                          tabs: tabs,
+                                          labelStyle: GoogleFonts.dmSans(textStyle:TextStyle(
+                                              fontWeight: FontWeight.w400,fontSize: 14,color: Colors.white)
+                                          ),
+                                          unselectedLabelStyle: GoogleFonts.dmSans(textStyle:TextStyle(
+                                              fontWeight: FontWeight.w400,fontSize: 14,color: Color(0xff7F7F7F))
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Container(
+                                          width:
+                                              MediaQuery.of(context).size.width / 1,
+                                          height:
+                                              MediaQuery.of(context).size.height /
+                                                  3,
+                                          child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: state.products.length,
+                                              itemBuilder: (BuildContext context,
+                                                  int index) {
+                                                return GestureDetector(
+                                                  onTap: (){
+                                                    Navigator.of(context).push(MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                Products(
+                                                                  cat: category,
+                                                                )));
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(8),
+                                                      color: Colors.white,
+                                                    ),
+                                                    margin: EdgeInsets.symmetric(
+                                                        horizontal: 10, vertical: 5),
+                                                    width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.95,
+                                                    child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
+                                                              .spaceEvenly,
                                                       children: [
+                                                        Column(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                          crossAxisAlignment:CrossAxisAlignment.start,
+                                                          children: [
+                                                            Container(
+                                                              // color: Colors.red,
+                                                              margin: EdgeInsets.only(
+                                                                  left: 20),
+                                                              width: 160,
+                                                              child: Text(
+                                                                state.products[index]
+                                                                    .prodName!,
+                                                                softWrap: true,
+                                                                style: GoogleFonts.montserrat(textStyle:TextStyle(
+                                                                  fontWeight: FontWeight.w700,fontSize: 22
+                                                                )),
+                                                                maxLines: null,
+                                                                overflow: TextOverflow.visible,
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              margin: EdgeInsets.only(left: 20),
+                                                              child: Row(
+                                                                children: [
+                                                                  TextButton(
+                                                                      onPressed: () {
+                                                                        Navigator.of(context).push(MaterialPageRoute(builder:
+                                                                                    (context) => Products(cat: category,)));
+                                                                      },
+                                                                      child:
+                                                                          Text("Shop Now",
+                                                                            style: GoogleFonts.dmSans(textStyle:TextStyle(color: Color(0xff0ACF83),fontWeight: FontWeight.w700,fontSize: 14)),
+                                                                          )
+                                                                  ),
+                                                                  Icon(Icons.arrow_forward,color: Color(0xff0ACF83),)
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 150,
+                                                          height:
+                                                              MediaQuery.of(context)
+                                                                      .size
+                                                                      .height /
+                                                                  3.5,
+                                                          // color: Colors.red,
+                                                          child: Image.asset(
+                                                            state.products[index].prodImage!,
+                                                            height: 120,
+                                                            width: 120,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                        Container(
+                                          margin:
+                                              EdgeInsets.symmetric(horizontal: 25),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Featured Products",
+                                                  style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,fontWeight: FontWeight.w400,
+                                                  fontSize: 16)),
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                Products(
+                                                                  cat: category,
+                                                                )));
+                                                  },
+                                                  child: Text("See all",style:
+                                            GoogleFonts.dmSans(textStyle:TextStyle(color: Color(0xff7F7F7F),fontWeight: FontWeight.w400,
+                                             fontSize: 16,))
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                            width:
+                                                MediaQuery.of(context).size.width /
+                                                    0.7,
+                                            height: 200,
+                                            child: ListView.builder(
+                                                scrollDirection: Axis.horizontal,
+                                                itemCount: state.products.length,
+                                                itemBuilder: (BuildContext context,
+                                                    int index) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(8),
+                                                      color: Colors.white,
+                                                    ),
+                                                    margin: EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 10),
+                                                    width: 150,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Container(
+                                                          width: 100,
+                                                          // height: MediaQuery.of(context).size.height/4,
+                                                          // color: Colors.red,
+                                                          child: Image.asset(
+                                                            state.products[index].prodImage!,
+                                                            height: 100,
+                                                            width: 100,
+                                                          ),
+                                                        ),
                                                         Container(
                                                           margin: EdgeInsets.only(
                                                               left: 10),
@@ -284,141 +433,22 @@ class _DashboardState extends State<Dashboard> {
                                                             state.products[index]
                                                                 .prodName!,
                                                             softWrap: true,
-                                                            style: TextStyle(
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                                  FontWeight.w700,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .visible,
-                                                            ),
-                                                            maxLines: null,
+                                                            style: GoogleFonts.dmSans(textStyle:TextStyle(fontWeight: FontWeight.w400,fontSize: 14)),maxLines: null,
                                                             overflow: TextOverflow
                                                                 .visible,
                                                           ),
                                                         ),
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              Navigator.of(context).push(
-                                                                  MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              Products(
-                                                                                cat: category,
-                                                                              )));
-                                                            },
-                                                            child:
-                                                                Text("Shop Now",
-                                                                  style: TextStyle(color: Colors.green,fontWeight: FontWeight.w600,fontSize: 18),))
                                                       ],
                                                     ),
-                                                    Container(
-                                                      width: 150,
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height /
-                                                              3.5,
-                                                      // color: Colors.red,
-                                                      child: Image.asset(
-                                                        state.products[index].prodImage!,
-                                                        height: 200,
-                                                        width: 200,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          }),
+                                                  );
+                                                }))
+                                      ],
                                     ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 25),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Featured Products",
-                                              style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600)),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                            Products(
-                                                              cat: category,
-                                                            )));
-                                              },
-                                              child: Text("See all",style: TextStyle(color: Colors.green,fontWeight: FontWeight.w600),))
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                0.7,
-                                        height: 200,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: state.products.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color: Colors.white,
-                                                ),
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 20,
-                                                    vertical: 10),
-                                                width: 150,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Container(
-                                                      width: 100,
-                                                      // height: MediaQuery.of(context).size.height/4,
-                                                      // color: Colors.red,
-                                                      child: Image.asset(
-                                                        state.products[index].prodImage!,
-                                                        height: 100,
-                                                        width: 100,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 10),
-                                                      width: 160,
-                                                      child: Text(
-                                                        state.products[index]
-                                                            .prodName!,
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          overflow: TextOverflow
-                                                              .visible,
-                                                        ),
-                                                        maxLines: null,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            }))
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          })),
+                              );
+                            })),
+                      ),
                     )
                   ],
                 ),

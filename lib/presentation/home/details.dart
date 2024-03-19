@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../bloc/prod/prod_bloc.dart';
 import '../../constants.dart';
@@ -116,25 +117,26 @@ class _DetailsState extends State<Details> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("USD   "+state.product.prodPrice!,style: TextStyle(color: Colors.green,fontSize: 20,fontWeight: FontWeight.w600),),
-                      Text(state.product.prodName!,style: TextStyle(fontSize: 18),),
-                      TabBar(dividerColor: Color(0xffF6F6F6),
-                          // indicatorColor: Colors.green,
-                          indicatorSize: TabBarIndicatorSize.label,
+                      Text("USD  "+state.product.prodPrice!,style:
+                      GoogleFonts.dmSans(textStyle:TextStyle(color: Color(0xff0ACF83),fontSize: 16,fontWeight: FontWeight.w700))),
+                      Text(state.product.prodName!,style:GoogleFonts.montserrat(textStyle:TextStyle(color: Colors.black,fontSize: 28,fontWeight: FontWeight.w700))),
+                      TabBar(
+                          dividerColor: Color(0xffF6F6F6),
+                          indicatorColor: Color(0xff0ACF83),
+                          indicatorSize: TabBarIndicatorSize.values[1],
                           labelPadding:
                           EdgeInsets.symmetric(horizontal: 10),
                           tabAlignment: TabAlignment.center,
-                          // labelStyle: TextStyle(fontSize: 16, wordSpacing: 10),
+                          labelStyle: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w400)),
                           physics: BouncingScrollPhysics(),
-                          // // padding: EdgeInsets.symmetric(horizontal: 5),
-                          // automaticIndicatorColorAdjustment: true,
                           isScrollable: true,
-
                           tabs: tabs
                       ),
+                      SizedBox(height: 30,),
                       Text("""
                       Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                      """,softWrap: true,maxLines: 10,overflow: TextOverflow.visible,),
+                      """,softWrap: true,maxLines: 10,overflow: TextOverflow.visible,
+                      style: GoogleFonts.dmSans(textStyle:TextStyle(fontWeight: FontWeight.w400,fontSize: 14)),),
                       Image.asset(state.product.prodImage!,height: 300,width: 300,),
                       Container(
                         // margin: EdgeInsets.only(bottom: 10,top: MediaQuery.of(context).size.height/2.8),
@@ -142,7 +144,8 @@ class _DetailsState extends State<Details> {
                         child: FloatingActionButton(
                           child: Text(
                             'Add To Cart',
-                            style: TextStyle(color: Colors.white),
+                            style:GoogleFonts.dmSans(textStyle:
+                            TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: Colors.white)),
                           ),
                           onPressed: () async{
                            await  pushNotificationsAllUsers(title: state.product.prodName!, body: "Added to cart");
@@ -150,7 +153,7 @@ class _DetailsState extends State<Details> {
                             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Cart(cat: cat,)));
 
                           },
-                          backgroundColor: Colors.green,
+                          backgroundColor: Color(0xff0ACF83),
                         ),
                       ),
                     ],
