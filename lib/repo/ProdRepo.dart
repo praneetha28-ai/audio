@@ -48,15 +48,13 @@ class ProductsRepository{
   }
   Future<String> deleteProductAtIndex(int index) async {
     try {
-      // Fetch the current cart data
+
       DocumentSnapshot userDoc = await userRef.doc(user!.uid).get();
-      final data = userDoc.data() as Map<String, dynamic>; // Explicit casting here
+      final data = userDoc.data() as Map<String, dynamic>;
       List<dynamic> cartList = List<Map<String, dynamic>>.from(data['cart'] ?? []);
 
-      // Remove the item at the specified index
       cartList.removeAt(index);
 
-      // Update the cart data in Firestore
       await userRef.doc(user!.uid).update({'cart': cartList});
 
       return ('Product deleted successfully');
@@ -65,7 +63,6 @@ class ProductsRepository{
     }
   }
   Future<String> addToCart(ProductItem prod)async{
-    // final userDocRef = _firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid);
     await userRef.doc(user!.uid).update({
       'cart': FieldValue.arrayUnion([prod.toJson()])
     });
@@ -74,15 +71,11 @@ class ProductsRepository{
 
   Future<int> deleteProducts() async {
     try {
-      // Fetch the current cart data
       DocumentSnapshot userDoc = await userRef.doc(user!.uid).get();
       final data = userDoc.data() as Map<String, dynamic>; // Explicit casting here
       List<dynamic> cartList = List<Map<String, dynamic>>.from(data['cart'] ?? []);
 
-      // Remove the item at the specified index
       cartList.clear();
-
-      // Update the cart data in Firestore
       await userRef.doc(user!.uid).update({'cart': cartList});
 
       print('Product deleted successfully');
@@ -92,4 +85,43 @@ class ProductsRepository{
       return 1;
     }
   }
+
+  Future<String> checkOut() async{
+    try{
+      DocumentSnapshot userDoc = await userRef.doc(user!.uid).get();
+      final data = userDoc.data() as Map<String, dynamic>;
+      List<dynamic> cartList = List<Map<String, dynamic>>.from(data['cart'] ?? []);
+      DocumentSnapshot<Map<String, dynamic>> docRef = await
+      FirebaseFirestore.instance.collection("dealer").
+      doc("received").collection("users").doc(user!.uid).get();
+      DocumentSnapshot<Map<String, dynamic>> docRefDelivered = await
+      FirebaseFirestore.instance.collection("dealer").
+      doc("delivered").collection("users").doc(user!.uid).get();
+
+
+
+      if(docRef.exists){
+        print("hello");
+        // List<Map<String,dynamic>> orders = docRef.get("orders");
+        await FirebaseFirestore.instance.collection("dealer").doc("received").collection("users").
+        doc(user!.uid).update({"${user!.displayName}":FieldValue.arrayUnion(cartList)});
+        if(!docRefDelivered.exists){
+          print("hur");
+          await FirebaseFirestore.instance.collection("dealer").doc("delivered").collection("users").
+          doc(user!.uid).set({"${user!.displayName}":[]});
+        }
+      }else{
+        await FirebaseFirestore.instance.collection("dealer").doc("received").collection("users").doc(user!.uid).
+        set({"${user!.displayName}":cartList});
+      }
+      await FirebaseFirestore.instance.collection("users").doc(user!.uid).update({"cart":FieldValue.arrayRemove(cartList)});
+
+      return "Success";
+    }catch(e){
+      return e.toString();
+    }
+  }
+
+
+
 }

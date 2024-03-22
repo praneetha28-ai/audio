@@ -15,8 +15,9 @@ class ProdBloc extends Bloc<ProdEvent, ProdState> {
     on<ProductsFetchEvent>((event, emit) async {
       try {
         final products = await prodRep.getProducts(event.cat).first;
-
-        emit(ProductSuccess(products));
+        final cartData = await prodRep.getCartProducts().first;
+        final count = cartData.length;
+        emit(ProductSuccess(products,count));
       } on Exception catch (e) {
         emit(ProductError(e.toString()));
       }
@@ -25,11 +26,14 @@ class ProdBloc extends Bloc<ProdEvent, ProdState> {
     on<ProductDetailsRequested>((event,emit)async{
       try{
         final products = await prodRep.getProductByIndex(event.cat, event.index).first;
-        emit(DetailsSuccess(products!));
+        final cartData = await prodRep.getCartProducts().first;
+        final count = cartData.length;
+        emit(DetailsSuccess(products!,count));
       }catch(e){
         emit(DetailsError(e.toString()));
       }
     });
+
 
     on<CartRequested>((event,emit)async{
       try{
@@ -43,8 +47,9 @@ class ProdBloc extends Bloc<ProdEvent, ProdState> {
     on<UpdateCart>((event,emit)async{
       try{
         final msg = await prodRep.addToCart(event.prod);
-        final products = await prodRep.getCartProducts().first;
-        emit(CartSuccess(products));
+        final cartData = await prodRep.getCartProducts().first;
+        final count = cartData.length;
+        emit(CartUpdate(msg));
       }catch(e){
         emit(CartError(e.toString()));
       }
@@ -63,6 +68,14 @@ class ProdBloc extends Bloc<ProdEvent, ProdState> {
         final msg = await prodRep.deleteProducts();
         final products = await prodRep.getCartProducts().first;
         emit(CartSuccess(products));
+      }catch(e){
+        emit(CartError(e.toString()));
+      }
+    });
+    on<CheckoutRequested>((event,emit)async{
+      try{
+        final msg = await prodRep.checkOut();
+        emit(CheckOutSuccess(msg));
       }catch(e){
         emit(CartError(e.toString()));
       }

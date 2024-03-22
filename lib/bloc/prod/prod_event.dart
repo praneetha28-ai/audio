@@ -44,3 +44,8 @@ class DeleteCartList  extends ProdEvent{
   @override
   List<Object?> get props => [];
 }
+
+class CheckoutRequested  extends ProdEvent{
+  @override
+  List<Object?> get props => [];
+}

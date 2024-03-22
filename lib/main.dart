@@ -30,7 +30,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   await [Permission.notification].request();
 //   return statuses;
 // }
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
                     return const Dashboard();
                     }
                     // Otherwise, they're not signed in. Show the sign in page.
-                    return SignIn();
+                    return SignUp();
                   }),
                 ),
         ),

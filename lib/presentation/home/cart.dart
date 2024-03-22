@@ -1,6 +1,7 @@
 
 import 'package:audio/bloc/prod/prod_bloc.dart';
 import 'package:audio/models/product.dart';
+import 'package:audio/presentation/home/checkout.dart';
 import 'package:audio/presentation/home/dashboard.dart';
 import 'package:audio/presentation/home/products.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
+import '../../constants.dart';
 class Cart extends StatefulWidget {
   final String cat;
   const Cart({Key? key,required this.cat}) : super(key: key);
@@ -41,6 +44,33 @@ class _CartState extends State<Cart> {
     }
     // return price;
     // return 0;
+  }
+
+  Future<bool> pushNotificationsAllUsers({
+    required String title,
+    required String body,
+
+  }) async {
+    // await FirebaseMessaging.instance.subscribeToTopic(year).whenComplete(() => print("subscribed"));
+    final user = FirebaseAuth.instance.currentUser;
+    String dataNotifications = '{ '
+        ' "to" : "/topics/dealer" , '
+        ' "notification" : {'
+        ' "title":"$title" , '
+        ' "body":"From $body" '
+        ' } '
+        ' } ';
+
+    var response = await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+      },
+      body: dataNotifications,
+    );
+    print(response.body.toString());
+    return true;
   }
 
   @override
@@ -170,7 +200,13 @@ class _CartState extends State<Cart> {
                        margin: EdgeInsets.all(8),
                        width: MediaQuery.of(context).size.width,
                        height: 50,
-                       child: ElevatedButton(onPressed: (){},
+                       child: ElevatedButton(
+                         onPressed: (){
+                           BlocProvider.of<ProdBloc>(context).add(CheckoutRequested());
+                           pushNotificationsAllUsers(title: "New Order Received", body: user!.displayName!);
+                           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CheckOut()));
+
+                         },
                          style: ElevatedButton.styleFrom(backgroundColor: Color(0xff0ACF83)),
                          child: Row(
                            mainAxisAlignment: MainAxisAlignment.spaceAround,

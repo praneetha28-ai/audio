@@ -2,6 +2,7 @@ import 'package:audio/bloc/auth/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/prod/prod_bloc.dart';
 import '../auth/signin.dart';
@@ -41,7 +42,8 @@ class profile extends StatelessWidget {
                   },
                   child: Icon(Icons.arrow_back_ios),
                 ),
-                title: const Text('Profile'),
+                title:  Text('Profile',
+                  style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 16)),),
                 centerTitle: true,
               ),
               body: ListView(
@@ -54,13 +56,14 @@ class profile extends StatelessWidget {
                           radius: 40.0,
                           child: user!.photoURL != null
                               ? ClipOval(
-                                child: Image.network(
-                                                            user.photoURL!,
-                                                            fit: BoxFit.cover,
-                                                          ),
+                                child: Image.network(user.photoURL!, fit: BoxFit.cover,),
                               )
                               : Container(
-                            child: Text("${user.email![0]}"),
+                            child: Text("${user.email![0]}",
+                                style: GoogleFonts.dmSans(textStyle:
+                                TextStyle(color: Colors.black,fontWeight:
+                                FontWeight.w700,fontSize: 16))
+                            ),
                           ),
                         ),
                         SizedBox(width: 16.0),
@@ -69,12 +72,12 @@ class profile extends StatelessWidget {
                           children: [
                             Text(
                               user.displayName!,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                                style: GoogleFonts.dmSans(
+                                    textStyle:TextStyle(color: Colors.black,fontWeight:
+                                FontWeight.w400,fontSize: 16))
                             ),
-                            Text(user.email!),
+                            Text(user.email!,
+                                style: GoogleFonts.dmSans(textStyle:TextStyle(color: Color(0xff7F7F7F),fontWeight: FontWeight.w400,fontSize: 14))),
                           ],
                         ),
                       ],
@@ -84,96 +87,82 @@ class profile extends StatelessWidget {
                   ListTile(
                     title: Text(
                       'General',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(
+                            color: Color(0xff7F7F7F),
+                            fontWeight: FontWeight.w400,fontSize: 14))
                     ),
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 5.0,
                   ),
                   ListTile(
                     title: Text(
                       'Edit Profile',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,fontWeight:
+                        FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),
                   ListTile(
                     title: Text(
                       'Notifications',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:
+                        TextStyle(color: Colors.black,
+                            fontWeight: FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),
                   ListTile(
                     title: Text(
                       'Wishlist',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,fontWeight:
+                        FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),
                   ListTile(
                     title: Text(
                       'Legal',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:
+                        TextStyle(color: Color(0xff7F7F7F),
+                            fontWeight: FontWeight.w400,fontSize: 14))
                     ),
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 5.0,
                   ),
                   ListTile(
                     title: Text(
                       'Terms of Use',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,
+                            fontWeight: FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),
                   ListTile(
                     title: Text(
                       'Privacy Policy',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,
+                            fontWeight: FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),
                   ListTile(
                     title: Text(
                       'Personal',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:
+                        TextStyle(color: Color(0xff7F7F7F),
+                            fontWeight: FontWeight.w400,fontSize: 14))
                     ),
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 5.0,
                   ),
                   ListTile(
                     title: Text(
                       'Report a Bug',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,
+                            fontWeight: FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),
@@ -183,10 +172,8 @@ class profile extends StatelessWidget {
                     },
                     title: Text(
                       'Logout',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
+                        style: GoogleFonts.dmSans(textStyle:TextStyle(color: Colors.black,
+                            fontWeight: FontWeight.w400,fontSize: 16))
                     ),
                   ),
                   Divider(),

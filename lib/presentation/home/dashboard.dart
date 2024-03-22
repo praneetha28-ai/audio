@@ -3,15 +3,18 @@ import 'package:audio/presentation/auth/signin.dart';
 import 'package:audio/presentation/home/products.dart';
 import 'package:audio/presentation/home/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eraser/eraser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/prod/prod_bloc.dart';
+import '../../main.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -54,6 +57,26 @@ class _DashboardState extends State<Dashboard> {
     FirebaseMessaging.instance
         .subscribeToTopic(user!.uid.toString())
         .whenComplete(() => print("Subscription successful"));
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(channel.id, channel.name,
+                  channelDescription: channel.description,
+                  color: Colors.blue,
+                  playSound: true,
+                  icon: '@mipmap/ic_launcher'),
+            ));
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      Eraser.clearAllAppNotifications();
+    });
     BlocProvider.of<ProdBloc>(context).add(ProductsFetchEvent("earpods"));
     checkAndCreateField();
   }
@@ -206,7 +229,10 @@ class _DashboardState extends State<Dashboard> {
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide(color: Color(0xffBABABA))
-                              )
+                              ),
+                            enabledBorder:  OutlineInputBorder(
+                                borderSide: const BorderSide(color: Color(0xffBABABA), width: 0.0),
+                              ),
                           ),
                         )),
                     Expanded(
@@ -242,6 +268,7 @@ class _DashboardState extends State<Dashboard> {
                                           height: 30,
                                         ),
                                         TabBar(
+
                                           indicator: BoxDecoration(
                                               // border: Border.all( width: 1),
                                               shape: BoxShape.rectangle,

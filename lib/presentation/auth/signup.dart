@@ -155,8 +155,8 @@ class _SignUpState extends State<SignUp> {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.all(8),
-                                  width: 50,
-                                    height: 50,
+                                  width: 48,
+                                    height: 48,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
                                       color: Colors.white
@@ -164,7 +164,7 @@ class _SignUpState extends State<SignUp> {
 
                                     child: ClipOval(
                                         child: Image.asset("assets/google.png",
-                                          width: 2,height: 2,scale: 0.2,)),
+                                          width: 1,height: 1,scale: 0.01,)),
 
                                 ),
                               ),

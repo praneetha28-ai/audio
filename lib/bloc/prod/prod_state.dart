@@ -11,11 +11,11 @@ class ProdInitial extends ProdState {
 
 class ProductSuccess extends ProdState {
   final List<ProductItem> products;
-
-  ProductSuccess(this.products);
+  final int count;
+  ProductSuccess(this.products,this.count);
 
   @override
-  List<Object?> get props => [products];
+  List<Object?> get props => [products,count];
 }
 class ProductError extends ProdState {
   final String error;
@@ -27,8 +27,8 @@ class ProductError extends ProdState {
 }
 class DetailsSuccess extends ProdState {
   final ProductItem product;
-
-  DetailsSuccess(this.product);
+  final int count;
+  DetailsSuccess(this.product,this.count);
 
   @override
   List<Object?> get props => [product];
@@ -61,3 +61,11 @@ class CartUpdate extends ProdState{
   @override
   List<Object> get props=>[msg];
 }
+
+class CheckOutSuccess extends ProdState{
+  final String msg;
+  CheckOutSuccess(this.msg);
+  @override
+  List<Object> get props=>[msg];
+}
+
